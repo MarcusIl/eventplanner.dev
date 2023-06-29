@@ -6,6 +6,8 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/', [EventController::class, 'index']);
+
 // Event routes
 Route::post('/events', [EventController::class, 'index']);
 Route::get('/events/{event}', [EventController::class, 'show']);
