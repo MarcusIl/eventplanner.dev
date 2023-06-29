@@ -27,3 +27,7 @@ Route::delete('/events/{event}/budgets/{budget}', [BudgetController::class, 'del
 
 // Add other routes for additional functionality as needed
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
