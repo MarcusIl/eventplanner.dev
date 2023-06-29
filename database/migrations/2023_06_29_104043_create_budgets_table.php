@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('description');
-            $table->money('amount');
+            $table->decimal('budget_amount', 8, 2);
             $table->timestamps();
         });
     }
