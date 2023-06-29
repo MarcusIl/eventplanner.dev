@@ -26,25 +26,24 @@ Route::put('/events/{event}/budgets/{budget}', [BudgetController::class, 'update
 Route::delete('/events/{event}/budgets/{budget}', [BudgetController::class, 'delete']);
 
 // Authentication Routes
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/login', 'LoginController@showLoginForm')->name('login');
+Route::post('/login', 'LoginController@login');
+Route::post('/logout', 'LoginController@logout')->name('logout');
 
 // Registration Routes
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');
+Route::post('/register', 'RegisterController@register');
 
 // Password Reset Routes
-Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset']);
+Route::get('/password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('/password/reset', 'ResetPasswordController@reset');
 
 // Email Verification Routes
-Route::get('/email/verify', [App\Http\Controllers\Auth\VerificationController::class, 'show'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Auth\VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('/email/resend', [App\Http\Controllers\Auth\VerificationController::class, 'resend'])->name('verification.resend');
-
+Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', 'VerificationController@verify')->name('verification.verify');
+Route::post('/email/resend', 'VerificationController@resend')->name('verification.resend');
 
 
 
