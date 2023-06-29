@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Root route
