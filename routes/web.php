@@ -7,7 +7,8 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 // Event routes
-Route::post('/events', [EventController::class, 'index']);
+Route::get('/events', [EventController::class, 'index']); // Add a route to retrieve all events
+Route::post('/events', [EventController::class, 'create']);
 Route::get('/events/{event}', [EventController::class, 'show']);
 
 // Guest routes
@@ -44,6 +45,7 @@ Route::post('/password/reset', 'ResetPasswordController@reset');
 Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', 'VerificationController@verify')->name('verification.verify');
 Route::post('/email/resend', 'VerificationController@resend')->name('verification.resend');
+
 
 
 
