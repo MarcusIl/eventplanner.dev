@@ -8,17 +8,15 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-// Root route
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Home route
+Route::get('/home', [HomeController::class, 'index'])->name('dashboard.home');
+
 
 // Event routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::post('/events', [EventController::class, 'create'])->name('events.create');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
-Route::get('/events', [EventController::class, 'index'])->middleware('role:Admin');
-
+Route::middleware('role:Admin')->get('/events', [EventController::class, 'index']);
 
 // Guest routes
 Route::post('/events/{event}/guests', [GuestController::class, 'create'])->name('guests.create');
@@ -45,20 +43,19 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register']);
 
 // Password Reset Routes
-Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.showLinkRequestForm')->withoutMiddleware('auth');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.sendResetLinkEmail')->withoutMiddleware('auth');
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.showResetForm')->withoutMiddleware('auth');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.performReset')->withoutMiddleware('auth');
 
 // Email Verification Routes
-Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice')->middleware('auth');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('auth');
+Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend')->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
     // Routes accessible to all authenticated users
-
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::middleware(['role:admin'])->group(function () {
         // Routes accessible to users with the 'admin' role
@@ -84,9 +81,3 @@ Route::middleware(['auth'])->group(function () {
         // Add more guest routes as needed
     });
 });
-
-
-
-
-
-
