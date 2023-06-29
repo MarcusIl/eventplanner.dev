@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
+    
     public function create(Request $request, Event $event)
     {
         // Validate the request data
