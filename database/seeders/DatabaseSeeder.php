@@ -5,7 +5,6 @@ use App\Models\Event;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Event;
 
 class DatabaseSeeder extends Seeder
 {
