@@ -15,6 +15,8 @@ Route::get('/', function () {
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::post('/events', [EventController::class, 'create'])->name('events.create');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+Route::get('/events', [EventController::class, 'index'])->middleware('role:Admin');
+
 
 // Guest routes
 Route::post('/events/{event}/guests', [GuestController::class, 'create'])->name('guests.create');
@@ -51,6 +53,35 @@ Route::get('/email/verify', [VerificationController::class, 'show'])->name('veri
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
+Route::middleware(['auth'])->group(function () {
+    // Routes accessible to all authenticated users
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::middleware(['role:admin'])->group(function () {
+        // Routes accessible to users with the 'admin' role
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+        // Add more admin routes as needed
+    });
+
+    Route::middleware(['role:moderator'])->group(function () {
+        // Routes accessible to users with the 'moderator' role
+        Route::get('/moderator', [ModeratorController::class, 'index'])->name('moderator.dashboard');
+        // Add more moderator routes as needed
+    });
+
+    Route::middleware(['role:organizer'])->group(function () {
+        // Routes accessible to users with the 'organizer' role
+        Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer.dashboard');
+        // Add more organizer routes as needed
+    });
+
+    Route::middleware(['role:guest'])->group(function () {
+        // Routes accessible to users with the 'guest' role
+        Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
+        // Add more guest routes as needed
+    });
+});
 
 
 
