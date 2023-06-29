@@ -14,7 +14,7 @@ class EventController extends Controller
     {
         // Retrieve all events
         $events = Event::all();
-
+        return view('events', compact('events'));
         // Return a response or render a view with the events
     }
 
